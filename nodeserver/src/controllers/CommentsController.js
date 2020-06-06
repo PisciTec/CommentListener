@@ -1,12 +1,15 @@
-
+const connection = require('../database/connection');
 
 module.exports = {
-    ListComments(request, response){
-        const info = {"str": "teste inicial"}
-        return response.json(info);
+    async ListComments(request, response){
+        const comments = await connection('comments').select('*');
+        return response.json(comments);
     },
-    CreateComment(request, response){
-        const info = {"str": "teste inicial"}
-        return response.json(info);
+    async CreateComment(request, response){
+        const { comment } = request.body;
+        await connection('comments').insert({
+            comment,
+        })
+        return response.json("Comentário Criado com Sucesso");     
     }
 }
