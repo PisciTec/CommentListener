@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdPlayArrow } from 'react-icons/md';
 
 export default function Comment({ comment }) {
+    const [apikey, setApiKey] = useState('')
     function playAudio(stream) {
         let audioBlob = new Blob(stream)
         let audioUrl = URL.createObjectURL(audioBlob)
         let audio = new Audio(audioUrl);
         audio.play();
     }
-    async function acessIBM() {
+    async function acessIBM(apikey) {
         var token = ''
         await fetch("https://cors-anywhere.herokuapp.com/https://iam.cloud.ibm.com/identity/token", {
             "method": "POST",
@@ -16,7 +17,7 @@ export default function Comment({ comment }) {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
             },
-            body: "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=Skn19ZdLF6zdTnMjHqcnzsyPfx5rw0Lnqp44YihUiEop"
+            body: "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey="+apikey
         })
             .then(response => {
                 return response.json();
@@ -29,7 +30,7 @@ export default function Comment({ comment }) {
             return token
     }
     async function listenToAudio(id) {
-        let token = await acessIBM();
+        let token = await acessIBM(C0c2CB5Caacf85Dae2529bDE697CcA81e511d4cb5E62b33E7b1F1355f29560bA7e8e8Ae);
         var wsURI = 'wss://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/f0fba33e-a3bb-49df-af80-91aa51d72376/v1/synthesize'
             + '?access_token=' + token
             + '&voice=pt-BR_IsabelaV3Voice';
@@ -75,7 +76,7 @@ export default function Comment({ comment }) {
 
     return (
         <li className="comment">
-            <p id={comment.id}>{comment.comment}</p>
+            <p id={comment.id}>{comment.comment}</p>           
             <button onClick={() => listenToAudio(comment.id)} className="button"><MdPlayArrow size={16} color="#F9F9F9" />Ouvir</button>
         </li>
     );
