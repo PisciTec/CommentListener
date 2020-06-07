@@ -57,4 +57,14 @@ form .button{
 .comments-list .button {
     width: 125px;
     height: 29px;
+    float: right;
+}
+.robo{
+    position: absolute;
+    width: 165.65px;
+    height: 165.65px;
+    left: 520px;
+    top: 110px;
+
+    transform: rotate(-30deg);
 }
