@@ -30,8 +30,9 @@ export default function Comment({ comment }) {
             return token
     }
     async function listenToAudio(id) {
-        let token = await acessIBM('C0c2CB5Caacf85Dae2529bDE697CcA81e511d4cb5E62b33E7b1F1355f29560bA7e8e8Ae');
-        var wsURI = 'wss://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/f0fba33e-a3bb-49df-af80-91aa51d72376/v1/synthesize'
+        let token = await acessIBM('<apikey>');
+        var url = '<url>'
+        var wsURI = 'wss://'+ url
             + '?access_token=' + token
             + '&voice=pt-BR_IsabelaV3Voice';
 
@@ -52,7 +53,6 @@ export default function Comment({ comment }) {
                 mensagens += evt.data;
                 console.log(mensagens)
             } else {
-                console.log(evt.data)
                 console.log('Received ' + evt.data.size + ' binary bytes');
                 audioStream.push(evt.data);
             }
