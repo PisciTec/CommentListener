@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MdPlayArrow } from 'react-icons/md';
 
 export default function Comment({ comment }) {
-    const [apikey, setApiKey] = useState('')
     function playAudio(stream) {
         let audioBlob = new Blob(stream)
         let audioUrl = URL.createObjectURL(audioBlob)
@@ -17,7 +16,7 @@ export default function Comment({ comment }) {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
             },
-            body: "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey="+apikey
+            body: "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey="+ apikey
         })
             .then(response => {
                 return response.json();
@@ -31,11 +30,9 @@ export default function Comment({ comment }) {
     }
     async function listenToAudio(id) {
         let token = await acessIBM('<apikey>');
-        var url = '<url>'
-        var wsURI = 'wss://'+ url
-            + '?access_token=' + token
+        let url = '<url>'
+        var wsURI = 'wss://'+ url +'/v1/synthesize?access_token=' + token
             + '&voice=pt-BR_IsabelaV3Voice';
-
         var websocket = new WebSocket(wsURI);
         function onOpen(evt, id) {
             let message = document.getElementById(id).textContent;
@@ -59,8 +56,7 @@ export default function Comment({ comment }) {
         }
 
         function onClose(evt) {
-            console.log(audioStream);
-            playAudio(audioStream);
+             playAudio(audioStream);
         }
         function onError(evt) {
             console.log(evt.data);
